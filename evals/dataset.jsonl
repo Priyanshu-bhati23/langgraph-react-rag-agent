@@ -1,0 +1,6 @@
+{"id": "sandbox-limit", "question": "What is the rate limit for sandbox keys?", "expected_tools": ["search_knowledge_base"], "must_cite": ["rate-limits#2"], "must_contain": ["60"]}
+{"id": "refund-window", "question": "How long after capture can a payment be refunded?", "expected_tools": ["search_knowledge_base"], "must_cite": ["refunds#1"], "must_contain": ["180"]}
+{"id": "webhook-retries", "question": "How many times are failed webhook deliveries retried?", "expected_tools": ["search_knowledge_base"], "must_cite": ["webhooks#1"], "must_contain": ["8"]}
+{"id": "key-rotation", "question": "After rolling an API key, how long does the old key keep working?", "expected_tools": ["search_knowledge_base"], "must_cite": ["authentication#2"], "must_contain": ["24"]}
+{"id": "limit-math", "question": "Production keys rate limit: how many requests is 600 * 15 over fifteen minutes?", "expected_tools": ["search_knowledge_base", "calculator"], "must_cite": ["rate-limits#3"], "must_contain": ["9000"]}
+{"id": "signature", "question": "How do I verify a webhook signature?", "expected_tools": ["search_knowledge_base"], "must_cite": ["webhooks#2"], "must_contain": ["HMAC"]}
