@@ -38,7 +38,8 @@ Grounding rules for the final answer:
 - Only cite ids that appeared in search results during this conversation.
 - If the documentation does not contain the answer, say so plainly instead of guessing."""
 
-CITATION = re.compile(r"\[([a-z0-9][a-z0-9_-]*#\d+)\]")
+# Square brackets, or the full-width 【】 that some models (e.g. gpt-oss) use for citations.
+CITATION = re.compile(r"[\[\u3010]([a-z0-9][a-z0-9_-]*#\d+)[\]\u3011]")
 
 
 class AgentState(TypedDict):

@@ -11,6 +11,7 @@ answer for the wrong reason (no retrieval, or a made-up citation):
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -44,6 +45,12 @@ def load_cases(path: str | Path) -> list[Case]:
     return [Case(**json.loads(line)) for line in lines if line.strip()]
 
 
+def normalise(text: str) -> str:
+    """Lower-case, unify Unicode spaces, and drop thousands separators so "9,000" matches "9000"."""
+    text = text.replace("\u202f", " ").replace("\u00a0", " ").lower()
+    return re.sub(r"(?<=\d)[,\u2009 ](?=\d{3}\b)", "", text)
+
+
 def is_subsequence(expected: list[str], actual: list[str]) -> bool:
     remaining = iter(actual)
     return all(name in remaining for name in expected)
@@ -60,7 +67,7 @@ def evaluate(graph, cases: list[Case]) -> list[CaseResult]:
                 result=result,
                 tools=is_subsequence(case.expected_tools, called),
                 citation=not case.must_cite or bool(set(case.must_cite) & set(result.citations)),
-                answer=all(s.lower() in result.answer.lower() for s in case.must_contain),
+                answer=all(normalise(s) in normalise(result.answer) for s in case.must_contain),
             )
         )
     return results

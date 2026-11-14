@@ -19,6 +19,10 @@ def _graph(index_dir: str, max_steps: int):
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows consoles default to a legacy code page; model output often contains Unicode.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(prog="agent")
     parser.add_argument("--index", default=".index", help="index directory")
     parser.add_argument("--max-steps", type=int, default=6)

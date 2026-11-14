@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agent.evals import Case, evaluate, format_report, is_subsequence, load_cases
+from agent.evals import Case, evaluate, format_report, is_subsequence, load_cases, normalise
 from agent.graph import build_graph
 from agent.models import OfflinePolicyModel
 
@@ -42,3 +42,9 @@ def test_eval_catches_wrong_tool_order(tools):
     )
     (result,) = evaluate(build_graph(model, tools), [case])
     assert result.answer and not result.tools
+
+
+def test_answer_matching_ignores_number_formatting():
+    assert "9000" in normalise("That is 9,000\u202frequests")
+    assert "180 days" in normalise("up to\u202f180\u202fdays")
+    assert normalise("versions 1,2") == "versions 1,2"  # not a thousands separator

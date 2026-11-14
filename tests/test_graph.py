@@ -123,6 +123,7 @@ def test_answer_that_stays_ungrounded_is_flagged_not_hidden(tools):
 def test_grounding_problem_rules():
     assert grounding_problem("60 per minute [rate-limits#2].", ["rate-limits#2"]) is None
     assert grounding_problem("It is 1024.", []) is None
+    assert grounding_problem("60 per minute\u3010rate-limits#2\u3011.", ["rate-limits#2"]) is None  # gpt-oss style
     assert "never retrieved" in grounding_problem("See [made-up#1].", ["rate-limits#2"])
     assert "cites no passage" in grounding_problem("60 per minute.", ["rate-limits#2"])
 
